@@ -25,19 +25,43 @@ list+= `<li class="hide letter ${phray[i]}">${phray[i]}</li>`
 list += '</ul>';
 let x = document.createElement
  let gameboard = document.getElementById('phrase');
- console.log(gameboard);
  gameboard.innerHTML = list;
 }
 
-checkLetter(){
+checkLetter(target){
 //does selected letter match 
-for(var i=0; i < array.length; i++){
+//does button clicked match a letter 
+    //pass in input, look through phrase to see if it matches any in the 
+//if so show 
+//select phrase on screen to search through its letters
+let lttrs = document.getElementsByClassName("letter");
+//create an array from letters to use array methods
+let ltrAr = Array.from(lttrs); 
+//grab the letters from the html element 
+let innerLet = ltrAr.map((min)=>{return min.innerHTML});
+//variable for phrase on screen 
+let pOs = innerLet.join("");
+//check to see if target matches phrase 
+    let regex = new RegExp(target, 'gi');
+   let matched = pOs.match(regex);
+   if(matched){
+   this.showMatchedLetter(matched[0]); 
+   return true;
+}
+
+
 
 }
-}
 
-showMatchedLetter(){
-    //when letter is corretly guessed, reveal it 
-}
+showMatchedLetter(match){
+    let letters = document.getElementsByClassName("letter");
+    
+    for(var i = 0; i < letters.length; i++){
+        if(letters[i].innerHTML===match){
+            letters[i].style.color = "black"; 
+        }
+    }
+    //pass in input, look through phrase to see if it matches any in the 
+    }
 
 }
