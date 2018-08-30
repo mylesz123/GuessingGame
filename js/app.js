@@ -24,13 +24,13 @@ let gameOne = new Game(0,phrases);//start new game with no missed and array of p
 function resetDisplay() {
 //hide start screen overlayjj
 const ov = document.getElementById('overlay');
-ov.style.display = "none";
+ov.style.visibility = "hidden";
 gameOne.startGame();
 }
 
 function markButton(){
     //disable button on keyboard
-    let selection = event.target.innerHTML;    
+    let selection = event.target.innerHTML;   
 
 //when letter is picked disable it and call handleInteraction 
 
@@ -38,6 +38,22 @@ gameOne.handleInteraction(selection);
 
 }
 
+document.addEventListener('keypress',(e)=>{
+    gameOne.handleInteraction(e);
+    /**let keybrd = document.getElementsByClassName('key');
+    let keyboard = Array.from(keybrd)
+    keyboard.forEach((key)=>{
+
+        if(e.key === key.innerHTML){
+            console.log(key.innerHTML)
+            console.log(e.key)
+            key.disabled = true;
+            key.classList.add('chosen')
+        gameOne.handleInteraction(key);   
+        }
+    }) **/
+
+}) 
 
 let hearts = document.getElementsByClassName('tries'); 
 let squares = document.getElementsByClassName('letter');
