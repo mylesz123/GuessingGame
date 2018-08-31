@@ -17,6 +17,7 @@ const keyb = document.getElementById('qwerty');
 keyb.style.display = 'block';
 
 let phrases =["hop skip and a jump", "built ford tough","born to be wild","bad to the bone"];
+
 let gameOne = new Game(0,phrases);//start new game with no missed and array of phrases
 
 //add event listeners for keyboard that call mark button 
@@ -45,8 +46,7 @@ document.addEventListener('keypress',(e)=>{
     keyboard.forEach((key)=>{
 
         if(e.key === key.innerHTML){
-            console.log(key.innerHTML)
-            console.log(e.key)
+
             key.disabled = true;
             key.classList.add('chosen')
         gameOne.handleInteraction(key);   
