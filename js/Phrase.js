@@ -57,6 +57,8 @@ class Phrase {
 		//pass in input, look through phrase to see if it matches any in the 
 	}
 }
+
+//Warren Leyes, a fellow techdegree student told me about the below function which prevents highlighting letters in the phrase
 document.addEventListener("mousedown", function (e) {
 	e.preventDefault();
 });
