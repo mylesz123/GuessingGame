@@ -88,7 +88,7 @@ class Game {
 		let lttrs = document.getElementsByClassName("letter");
 		let count = 0
 		for (var i = 0; i < lttrs.length; i++) {
-			if (lttrs[i].style.color == '#0080ff') {
+			if (lttrs[i].style.color == 'black') {
 				count++;
 				if (count == (lttrs.length)) {
 					this.gameOver(1);
