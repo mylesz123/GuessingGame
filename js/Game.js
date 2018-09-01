@@ -49,7 +49,7 @@ class Game {
                                 //this.storage.push(target.key);
                         //console.log(this.storage)
                         this.removeLife(),
-                        //key.disabled = true;
+                        key.disabled = true;
 
 							//change element to wrong 
 							key.classList.add("wrong")}

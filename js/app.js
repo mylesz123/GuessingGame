@@ -7,6 +7,7 @@ start.addEventListener('click', resetDisplay);
 
 let keys = document.getElementsByClassName('key');
 
+document.getElementById("btn__reset").focus();
 
 
 for(var i=0; i < keys.length; i++){
@@ -57,3 +58,4 @@ document.addEventListener('keypress',(e)=>{
 
 let hearts = document.getElementsByClassName('tries'); 
 let squares = document.getElementsByClassName('letter');
+
