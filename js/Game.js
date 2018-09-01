@@ -88,7 +88,7 @@ class Game {
 		let lttrs = document.getElementsByClassName("letter");
 		let count = 0
 		for (var i = 0; i < lttrs.length; i++) {
-			if (lttrs[i].style.color == "black") {
+			if (lttrs[i].style.color == '#0080ff') {
 				count++;
 				if (count == (lttrs.length)) {
 					this.gameOver(1);
@@ -105,10 +105,14 @@ class Game {
 		if (outcome) {
 			//append win message and reset button 
 			gameovermsg.innerHTML = "Congrats, You win";
+			ov.classList.add('win');
+
 			// this.startGame();
 		} else {
 			//append loss message and reset button 
 			gameovermsg.innerHTML = "You lose";
+			ov.classList.add('lose');
+
 			// this.startGame();
 		}
 		//win message 
