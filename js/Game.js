@@ -1,38 +1,40 @@
-//when passing function into callback () will run automatically 
+//create game class
 class Game {
+	//pass missed var and phrases into game 
 	constructor(missed, phrases) {
 		this.missed = missed; //keep track of guesses
-        this.phrases = phrases.map((phrase) => new Phrase(phrase));
+		//for each phrase in the array create a new phrase object 
+		this.phrases = phrases.map((phrase) => new Phrase(phrase));
+		//create an array to store guess 
         this.storage = [];
 	}
-	//lives
-	//hearts
-	//chances 
+	//select a random phrase from array 
 	getRandomPhrase() {
+		//store games phrases in array 
 		let arr = this.phrases
+		
 		var random = arr[Math.floor(Math.random() * arr.length)];
 		return random;
 	}
-	//make this accept input from keys and clicks 
-	//keys need to select screen item thats the same 
-	//clicks just be themself
+//pass selection into handleInteraction 
 	handleInteraction(target) {
-		//find element with innerHTML that matches letter passed in 
-        //manipulate that element 
+		//select all keys on page 
 		let keybrd = document.getElementsByClassName('key');
+		//save keys in an array 
 		let keyboard = Array.from(keybrd)
+		//if target is an object add it to storage 
 		if (typeof target == 'object') {
-            this.storage.push(target.key);
+			this.storage.push(target.key);
+			//run function on each key 
 			keyboard.forEach((key) => {
-				//if pressed letter matches onscreen keyboard button 
+				//if key is the same as the innerHTML 
 				if (target.key === key.innerHTML) {
-					//check if letter is in phrase 
+					//check to see if letter is in phrase 
 					if (this.phrases[0].checkLetter(target.key)) {
 						//if so call check functin which calls showletter
 						this.phrases[0].checkLetter(target.key),
 							//change apearance and see if game is over 
                             key.classList.add('chosen'),
-                            //key.disabled = true;
 
 							this.checkForWin();
 					} else {
@@ -85,52 +87,72 @@ class Game {
 			}
 	}
 	checkForWin() {
+		//select letter boxes
 		let lttrs = document.getElementsByClassName("letter");
+		//set count to 0 
 		let count = 0
+		//for each letter
 		for (var i = 0; i < lttrs.length; i++) {
+			//if the letter is black 
 			if (lttrs[i].style.color == 'black') {
+				//increment count
 				count++;
+				//when count is equal to the length of phrase
 				if (count == (lttrs.length)) {
+					//run game over func
 					this.gameOver(1);
 				}
 			}
 		}
 	}
+	
 	gameOver(outcome) {
+		//select game over message
 		let gameovermsg = document.getElementById('game-over-message');
+		//select overlay
 		const ov = document.getElementById('overlay');
+		//make overlay visible
 		ov.style.visibility = "visible";
+		//select start button 
 		let sb = document.getElementById('btn__reset');
+		//change text on start button 
 		sb.innerHTML = "Play again?";
+		//if win 
 		if (outcome) {
 			//append win message and reset button 
 			gameovermsg.innerHTML = "Congrats, You win";
 			ov.classList.add('win');
 
-			// this.startGame();
 		} else {
 			//append loss message and reset button 
 			gameovermsg.innerHTML = "You lose";
 			ov.classList.add('lose');
 
-			// this.startGame();
 		}
-		//win message 
-		//loss message 
+		
 	}
 	startGame() {
-		//remove chosen & wrong classes from keys 
+		//select all keys 
 		let key = document.getElementsByClassName('key');
+		//turn list to array 
 		let keys = Array.from(key);
+		//for each key 
 		keys.forEach((key) => {
-            key.disabled = false;
-            key.classList.remove("wrong"),
+			//set disabled to false
+			key.disabled = false;
+			//remove wrong class 
+			key.classList.remove("wrong"),
+			//remove chosen class 
 			key.classList.remove("chosen")
 		})
+		//select random phrase 
 		let currentPhrase = this.getRandomPhrase();
+		//add random phrase to display 
 		currentPhrase.addPhraseToDisplay(currentPhrase.phrase);
+		//set missed to zero & clear storage 
         this.missed = 0;
-        this.storage= [];
+		this.storage= [];
+		//reset hearts 
 		let hearts = `<ol>
     <li class="tries"><img src="images/liveHeart.png" height="35px" widght="30px"></li>
     <li class="tries"><img src="images/liveHeart.png" height="35px" widght="30px"></li>

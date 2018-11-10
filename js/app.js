@@ -1,61 +1,50 @@
 
-//select start button 
+//store start button in variable 
 const start = document.getElementById('btn__reset');
-//add event listener 
-//call reset display, create new game object, start game 
+//watch for click on start button and reset the display 
 start.addEventListener('click', resetDisplay);
-
+//store keys in variable 
 let keys = document.getElementsByClassName('key');
-
+//focus on the start button 
 document.getElementById("btn__reset").focus();
 
-
+//watch for click on all the keys and mark button when they are clicked 
 for(var i=0; i < keys.length; i++){
     keys[i].addEventListener('click',markButton)
 } 
-
+//store keyboard in variable 
 const keyb = document.getElementById('qwerty');
+//display keyboards in block 
 keyb.style.display = 'block';
-
+//create phrases to add to game 
 let phrases =["hop skip and a jump", "built ford tough","born to be wild","bad to the bone"];
-
+//start new game with 0 misses and array of phrases
 let gameOne = new Game(0,phrases);//start new game with no missed and array of phrases
 
-//add event listeners for keyboard that call mark button 
-
+//create a function that resets display 
 function resetDisplay() {
-//hide start screen overlayjj
+//store overlay in variable 
 const ov = document.getElementById('overlay');
+//hide overlay 
 ov.style.visibility = "hidden";
+//start game created on line 22 
 gameOne.startGame();
 }
 
 function markButton(){
-    //disable button on keyboard
+//store value of clicked button 
     let selection = event.target.innerHTML;   
-
-//when letter is picked disable it and call handleInteraction 
-
+//call handle interaction on selected button 
 gameOne.handleInteraction(selection);
 
 }
-
+//watch for keypress 
 document.addEventListener('keypress',(e)=>{
+    //handle interaction with key pressed 
     gameOne.handleInteraction(e);
-    /**let keybrd = document.getElementsByClassName('key');
-    let keyboard = Array.from(keybrd)
-    keyboard.forEach((key)=>{
-
-        if(e.key === key.innerHTML){
-
-            key.disabled = true;
-            key.classList.add('chosen')
-        gameOne.handleInteraction(key);   
-        }
-    }) **/
-
+    
 }) 
-
+//select hearts 
 let hearts = document.getElementsByClassName('tries'); 
 let squares = document.getElementsByClassName('letter');
 
