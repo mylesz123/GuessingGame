@@ -1,43 +1,50 @@
 //create game class
 class Game {
-	//pass missed var and phrases into game 
+	//create game constructor that takes a missed variable and a list of phrases
 	constructor(missed, phrases) {
-		this.missed = missed; //keep track of guesses
-		//for each phrase in the array create a new phrase object 
+		//variable to track incorrect guesses 
+		this.missed = missed; 
+		//for every phrase in array create a new phrase object 
 		this.phrases = phrases.map((phrase) => new Phrase(phrase));
-		//create an array to store guess 
+		//create an array to store guessed letters
         this.storage = [];
 	}
-	//select a random phrase from array 
+	//function to select a random phrase from phrases  
 	getRandomPhrase() {
-		//store games phrases in array 
+		//store phrases in new variable
 		let arr = this.phrases
-		
+		//create a random number between 0 and last array item 
+		//then select phrase 
 		var random = arr[Math.floor(Math.random() * arr.length)];
 		return random;
 	}
-//pass selection into handleInteraction 
-	handleInteraction(target) {
-		//select all keys on page 
-		let keybrd = document.getElementsByClassName('key');
-		//save keys in an array 
-		let keyboard = Array.from(keybrd)
-		//if target is an object add it to storage 
-		if (typeof target == 'object') {
-			this.storage.push(target.key);
-			//run function on each key 
-			keyboard.forEach((key) => {
-				//if key is the same as the innerHTML 
-				if (target.key === key.innerHTML) {
-					//check to see if letter is in phrase 
-					if (this.phrases[0].checkLetter(target.key)) {
-						//if so call check functin which calls showletter
-						this.phrases[0].checkLetter(target.key),
-							//change apearance and see if game is over 
-                            key.classList.add('chosen'),
 
+//create function to handle clicks 
+	handleInteraction(target) {
+		//store keys in variable
+		let keybrd = document.getElementsByClassName('key');
+		//convert list to array 
+		let keyboard = Array.from(keybrd)
+
+		//if selected item is an object(keyboard press) 
+		if (typeof target == 'object') {
+			// store pressed key in array 
+			this.storage.push(target.key);
+			//for every key on board 
+			keyboard.forEach((key) => {
+				//if pressed key is the same as on screen key
+				if (target.key === key.innerHTML) {
+					//see if pressed key is in phrase 
+					//checkLetter returns a bool 
+					if (this.phrases[0].checkLetter(target.key)) {
+						//if selected key is in phrase 
+						this.phrases[0].checkLetter(target.key),
+							//give key appearance of correct guess 
+                            key.classList.add('chosen'),
+							//check to see if game is over 
 							this.checkForWin();
-					} else {
+					} else {//if letter isnt in phrase 
+						//create a variable that counts 
                         var count = 0;
                         for(var i=0; i < this.storage.length; i++){
                             
@@ -48,24 +55,23 @@ class Game {
                     
                             if(count > 1){return
                             }else{
-                                //this.storage.push(target.key);
-                        //console.log(this.storage)
-                        this.removeLife(),
-                        key.disabled = true;
-
-							//change element to wrong 
-							key.classList.add("wrong")}
+                         // remove heart       
+						this.removeLife(),
+						//disable key 
+						key.disabled = true;
+						//give key appearance of incorrect guess
+						key.classList.add("wrong")}
 					}
 				}
 			})
-		} else {
+		} else {//if item is clicked 
 			//disable selected key 
 			event.target.disabled = true;
 			//if check letter returns true, letter is present call check letter 
 			if (this.phrases[0].checkLetter(target)) {
 				//calling check letter shows matches on board 
 				this.phrases[0].checkLetter(target);
-				//target the selected element 
+				//add class of chosen to clicked button
 				event.target.classList.add("chosen")
 				//check to see if game is over 
 				this.checkForWin();
@@ -77,17 +83,23 @@ class Game {
 			}
 		}
 	}
+
+	//function to track misses 
 	removeLife() {
-		//remove life, heart and end game 
+		//select heart elements 
 		let hearts = document.getElementsByClassName('tries');
+		//remove first heart item 
 		hearts[0].remove();
+		//increment missed tracker
 		this.missed++
-			if (this.missed == 5) {
+			if (this.missed == 5) {//when 5 wrong guesses end game 
 				this.gameOver(0);
 			}
 	}
+
+	//create a function that checks if game is won 
 	checkForWin() {
-		//select letter boxes
+		//select letters in phrase 
 		let lttrs = document.getElementsByClassName("letter");
 		//set count to 0 
 		let count = 0
@@ -105,7 +117,7 @@ class Game {
 			}
 		}
 	}
-	
+	// create function that ends game pass in a bool 
 	gameOver(outcome) {
 		//select game over message
 		let gameovermsg = document.getElementById('game-over-message');
@@ -117,13 +129,13 @@ class Game {
 		let sb = document.getElementById('btn__reset');
 		//change text on start button 
 		sb.innerHTML = "Play again?";
-		//if win 
+		//if outcome is true add win message, check for win runs gameOver with param of true 
 		if (outcome) {
-			//append win message and reset button 
+			//add game over message and winning appearance 
 			gameovermsg.innerHTML = "Congrats, You win";
 			ov.classList.add('win');
 
-		} else {
+		} else {//if outcome is false add loss message to screen 
 			//append loss message and reset button 
 			gameovermsg.innerHTML = "You lose";
 			ov.classList.add('lose');
@@ -131,14 +143,15 @@ class Game {
 		}
 		
 	}
+	//create function that starts game 
 	startGame() {
 		//select all keys 
 		let key = document.getElementsByClassName('key');
 		//turn list to array 
 		let keys = Array.from(key);
-		//for each key 
+		//reset each key by removing all added classes 
 		keys.forEach((key) => {
-			//set disabled to false
+			//remove disabled class from keys 
 			key.disabled = false;
 			//remove wrong class 
 			key.classList.remove("wrong"),
@@ -147,7 +160,7 @@ class Game {
 		})
 		//select random phrase 
 		let currentPhrase = this.getRandomPhrase();
-		//add random phrase to display 
+		//call phrase objects get random phrase function 
 		currentPhrase.addPhraseToDisplay(currentPhrase.phrase);
 		//set missed to zero & clear storage 
         this.missed = 0;

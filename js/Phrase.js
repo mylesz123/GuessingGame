@@ -9,10 +9,11 @@ class Phrase {
 		let phray = this.phrase.split("");
 		//create unordered list 
 		let list = '<ul>';
-		//fcheck each letter 
+		//go through each phrase character
 		for (var i = 0; i < phray.length; i++) {
-			//if array item is not blank add letter box 
+			//if array item is not a space add letter box 
 			if (phray[i] != " ") {
+				//add li with letter as innerHTML
 				list += `<li class="hide letter ${phray[i]}">${phray[i]}</li>`
 			} else {
 				//if its a space add blank space 
@@ -21,41 +22,46 @@ class Phrase {
 		}
 		//close unordered list 
 		list += '</ul>';
-		let x = document.createElement
+		
 		//select area of html to add phrase and set innerHTML 
 		let gameboard = document.getElementById('phrase');
 		gameboard.innerHTML = list;
 	}
+
+	//check selected letter 
 	checkLetter(target) {
 		//select all letter boxes 
 		let lttrs = document.getElementsByClassName("letter");
-		//create array 
+		//create array of letters in phrase
 		let ltrAr = Array.from(lttrs);
-		//grab the letters from the html element 
+		//select actual letter inside li 
 		let innerLet = ltrAr.map((min) => {
 			return min.innerHTML
 		});
-		//variable for phrase on screen 
+		//store letters as phrase 
 		let pOs = innerLet.join("");
 		//check to see if target matches phrase 
 		let regex = new RegExp(target, 'gi');
 		let matched = pOs.match(regex);
 		if (matched) {
+			//if selected letter is in phrase show it 
 			this.showMatchedLetter(matched[0]);
 			return true;
 		}
 	}
+
+
 	showMatchedLetter(match) {
 		//select  letters in phrase 
 		let letters = document.getElementsByClassName("letter");
 		//check each letter 
 		for (var i = 0; i < letters.length; i++) {
-			//if letter in box 
+			//if letter in box matches selected
 			if (letters[i].innerHTML === match) {
+				//change style so letter is visible
 				letters[i].style.color = "black";
 			}
 		}
-		//pass in input, look through phrase to see if it matches any in the 
 	}
 }
 
